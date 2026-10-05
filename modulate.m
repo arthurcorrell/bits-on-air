@@ -4,12 +4,7 @@ load('data.mat');
 subplot(5,1,1);
 plot(b,'.');
 t = linspace(1, tauS*length(b), tauS*length(b));
-b_t = [];
-for i = [1:length(b)]
-    for j = [1:tauS]
-        b_t = [b_t b(i)];
-    end
-end
+b_t = repelem(b, tauS)
 subplot(5,1,2);
 plot(b_t,'.');
 x1_t = [];
