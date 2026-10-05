@@ -18,12 +18,17 @@ tau_0 = fields.tau0;
 tau_1 = fields.tau1;
 tau_s = fields.tauS;
 
+p = pi;
+
+n = length(r) / tau_s;
+x = [1:1:tau_s];
+
 % each divide tau_s, which is th number of indices for each symbol
 f_0 = 1/tau_0;
 f_1 =  1/ tau_1;
 
 
-x_0 = cos( 2*p*f_0*x)
+x_0 = cos( 2*p*f_0*x);
 plot(x, x_0)
 x_1 = cos(2*p*f_1*x);
 plot(x, x_1)
@@ -40,16 +45,16 @@ z1 = [];
 % total number of loop iterations (i = 5.89 -> i = 5)
 iterations = floor( length(r) / tau_s );
 
-for n = [0:1:iterations]
+for n = [1:1:iterations]
 
     t0 = (n - 1) * tau_s + 1;
     t1 = n * tau_s;
 
     % elementwise multiplication and summation
-    z0_n = sum(  r(t0:t1) * x_0 );
+    z0_n = sum(  r([t0:t1]) .* x_0 );
     z0 = [z0, z0_n];
 
-    z1_n = sum (    r(t0:t1) * x_1 );
+    z1_n = sum (    r([t0:t1]) .* x_1 );
     z1 = [z1, z1_n];
 
 end
