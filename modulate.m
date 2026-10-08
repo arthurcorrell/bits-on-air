@@ -1,12 +1,15 @@
 function y = modulate(b)
-% Modulates a bitsequence 'b' into frequencies
+% Modulates bit sequence into two frequencies
 
-% Initial bitsequence 'b'
+% PARAMS:
+%   b = bit sequence
+
+% Initial bit sequence 'b'
 load('data.mat');
 subplot(5,1,1);
 plot(b,'.');
 
-% Repeated bitsequence 'b_t'
+% Repeated bit sequence 'b_t'
 t = linspace(1, tauS*length(b), tauS*length(b));
 b_t = repelem(b, tauS)
 subplot(5,1,2);

@@ -2,8 +2,8 @@ function dec_bits = repdecode(enc_bits, n)
 % Decode an n-repetition code using majority vote
 
 % PARAMS:
-%   enc_bits = encoded, noisy bit sequence
-%   n = number of repeats per bit
+%   enc_bits = 
+%   n = 
 
 dec_bits = [];
 for i = 1:n:size(enc_bits,2)
