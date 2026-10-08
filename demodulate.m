@@ -10,10 +10,15 @@ function bhat = demodulate(r)
 % f_0, f_1 - modulation frequency
 % tau_s - period for each symbol (currently unitless)
 
-tau_s = 100;
+
+fields = (load("data.mat"));
+
+
+tau_0 = fields.tau0;
+tau_1 = fields.tau1;
+tau_s = fields.tauS;
+
 % each divide tau_s, which is th number of indices for each symbol
-tau_0 = 20;
-tau_1 = 5;
 f_0 = 1/tau_0;
 f_1 =  1/ tau_1;
 
