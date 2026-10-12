@@ -3,20 +3,35 @@ function loop2(N, p, rep, snr)
 % N, p - generative parameters for the source
 bits = source(N, p);
 
-% rep - repetition encoding
+% rep - repetition encoding and modulation
 bits_enc = repencode(bits, rep);
-
 mod_bits = modulate_vectorized(bits_enc);
 
-mod_bits = awgn(mod_bits, snr, bandpower(mod_bits));
+% add pre and post amble, also modulated
+code = [1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1];
+mod_bits = [modulate_vectorized(code) mod_bits modulate_vectorized(~code)];
 
-rec_bits = demodulate(mod_bits);
+% gaussian white noise channel with pre- and post noise
+noise = awgn(zeros(1,47), snr);
+mod_bits = [noise awgn(mod_bits, snr, bandpower(mod_bits)) noise];
 
-bits_dec = repdecode(rec_bits, rep);
+% perform symbol synchronisation using symbols in data.mat
+synced_mod_bits = symbolsync(mod_bits);
+
+% now demodulate with the correct symbol alignment
+rec_bits = demodulate(synced_mod_bits);
+
+% there ist still noise and pre/postamble that has been demodulated
+synced_rec_bits = framesync(rec_bits, code, ~code);
+
+% now repdecode the truncated signal
+bits_dec = repdecode(synced_rec_bits, rep);
 
 % error rate should be 0 without a channel!
-BER = calcBER(bits, bits_dec);
+BER = calcBER(bits, bits_dec)
 
 
-
+% QUESTIONS:
+% - forward or backward sweep cross-correlation?
+% - cross correlation as a function of preamble length/probability?
 end
