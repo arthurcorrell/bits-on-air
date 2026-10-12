@@ -1,52 +1,55 @@
 function loop(loopsize, N, p, q)
-% parameters:
-% N - source bitsequence length, p - distribution of source bits
-% q - ground truth bit error rate
+% Loops through source, repencode, BSC_channel, repdecode, drain,
+% and calcBER
+
+% PARAMS:
+%   loopsize = number of loops to compute
+%   N = length of initial bit sequence
+%   p = probability that a given bit will be 0
+%   q = probability of a bit flip
 
 
-% PART 1 - loop through different source bitsequences 
-mu_arr = [];
-sigma_arr = [];
-for i = 1:1:loopsize
-    bits = source(N, p);
-    [mu_N, sigma_N] = drain(bits);
+% PART 1: loop through different source bitsequences
+%{
+    mu_arr = [];
+    sigma_arr = [];
+    for i = 1:1:loopsize
+        bits = source(N, p);
+        [mu_N, sigma_N] = drain(bits);
+    
+        mu_arr = [mu_arr mu_N];
+        sigma_arr = [sigma_arr sigma_N];
+    end
+    
+    figure;
+    subplot(5,1,1);
+    histogram(mu_arr);
+    xlabel('Mean');
+    ylabel('Frequency');
+    title(sprintf('Distribution of Sample Means for %.2f probability of 1', (1-p)));
+    
+    subplot(5,1,2);
+    histogram(sigma_arr);
+    xlabel('Std');
+    ylabel('Frequency');
+    title(sprintf('Distribution of Sample Standard Deviations for %.2f probability of 1', (1-p)));
+    
+    subplot(5,1,3);
+    x = [0.2:0.001:0.4];
+    y = gauss(x, mean(mu_arr), std(mu_arr));
+    plot(x, y);
+    title(sprintf('Predicted PDF of Sample Means for %.2f probability of 1', (1-p)));
+%}
 
-    mu_arr = [mu_arr mu_N];
-    sigma_arr = [sigma_arr sigma_N];
-end
 
-figure;
-subplot(5,1,1);
-histogram(mu_arr);
-xlabel('Mean');
-ylabel('Frequency');
-title(sprintf('Distribution of Sample Means for %.2f probability of 1', (1-p)));
-
-subplot(5,1,2);
-histogram(sigma_arr);
-xlabel('Std');
-ylabel('Frequency');
-title(sprintf('Distribution of Sample Standard Deviations for %.2f probability of 1', (1-p)));
-
-subplot(5,1,3);
-x = [0.2:0.001:0.4];
-y = gauss(x, mean(mu_arr), std(mu_arr));
-plot(x, y);
-title(sprintf('Predicted PDF of Sample Means for %.2f probability of 1', (1-p)));
-
-
-
-% PART 2 - test full system
-%source
+% PART 2: test full system
 bit_sequence = source(N, p);
-%BSC channel
 channel_bit_sequence = BSC_channel(bit_sequence, q);
-% bit error rate- should approach q!!!
 ber_N = calcBER(bit_sequence, channel_bit_sequence);
 fprintf('Measured bit error rate: %.4f (target: %.4f)\n', ber_N, q);
 
 
-% watch bit error rate converge for larger bit sequences of length N
+% Watch bit error rate converge for larger bit sequences of length N
 ber_arr = [];
 for i = 1:10:N
     bitSequence = source(i, p);
@@ -63,7 +66,7 @@ xlabel('Sequence length N from source');
 ylabel('Bit error Rate');
 
 
-% plot bit error rate in dependance of repetition encoding length
+% Plot bit error rate in dependance of repetition encoding length
 bit_err_arr = [];
 for i = 1:1:10
     bit_sequence = source(N, p);
@@ -82,8 +85,7 @@ xlabel('Repetition Encoding');
 ylabel('Bit error Rate');
 
 
-% for a repetition number, plot the bit error rate for higher and higher qs
-
+% For a repetition number, plot the bit error rate for higher and higher q's
 rep_num = 3;
 max_error = 0.5;
 bit_q_err_arr = [];
@@ -97,14 +99,8 @@ for q_err = max_error:-0.01:0.0
 
 end
 
-
-
-
 subplot(5,1,3);
 plot([max_error:-0.01:0.0], bit_q_err_arr);
 title(sprintf('BER with repetition number %.2f', rep_num));
 xlabel('Channel Disturbance q');
 ylabel('Bit error Rate');
-
-
-end

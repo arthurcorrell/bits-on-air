@@ -1,13 +1,23 @@
 function y = modulate(b)
-% Modulates a bitsequence 'b' into frequencies
+% Modulates bit sequence into two frequencies
 
+<<<<<<< HEAD
 % Initial bitsequence 'b'
 fields  = load('data.mat');
 tau0 = fields.tau0;
 tau1 = fields.tau1;
 tauS = fields.tauS;
+=======
+% PARAMS:
+%   b = bit sequence
 
-% Repeated bitsequence 'b_t'
+% Initial bit sequence 'b'
+load('data.mat');
+subplot(5,1,1);
+plot(b,'.');
+>>>>>>> 625d0f85d34148d2c835777666debb8922cc6bfa
+
+% Repeated bit sequence 'b_t'
 t = linspace(1, tauS*length(b), tauS*length(b));
 b_t = repelem(b, tauS);
 

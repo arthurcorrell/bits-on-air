@@ -1,7 +1,9 @@
 function ber_N = calcBER(bit_sequence, channel_bit_sequence)
+% Computes the bit error rate (BER) of the output compared to input
 
-% compute BER from bits from source and after going through BSC_channel
+% PARAMS:
+%   bit_sequence = bit sequence at input
+%   channel_bit_sequence = bit sequence at output
+
 N = size(bit_sequence, 2);
-ber_N = (1/N) * sum(  mod(bit_sequence - channel_bit_sequence, 2)  )
-
-end
+ber_N = (1/N) * sum( mod(bit_sequence - channel_bit_sequence, 2) );
