@@ -5,3 +5,4 @@ function symbolsync(a,b)
 % PARAMS:
 %   a = large vector with {-1, 1}
 %   b = small vector with {-1, 1}
+
