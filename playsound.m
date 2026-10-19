@@ -23,7 +23,7 @@ nBits = 8;
 outDevices = audiodevinfo().output
 
 % the device name is 'Speaker (Realtek(R) Audio) (Windows DirectSound)'
-speakerName = 'Headphone (Realtek(R) Audio) (Windows DirectSound)';
+speakerName = 'Speakers (USB Audio Device) (Windows DirectSound)';
 speakerID = 0;
 
 % lets find the corresponding ID
