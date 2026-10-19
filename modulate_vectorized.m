@@ -36,5 +36,3 @@ plot(x, x1.* (bitmask));
 subplot(4, 1, 4);
 plot(x, modulated_bits)
 
-
-end

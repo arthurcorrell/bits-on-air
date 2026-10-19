@@ -67,4 +67,3 @@ bhat = double(z_diff > 0);
 assert(length(bhat) == floor(length(r)/tau_s));
 
 
-end

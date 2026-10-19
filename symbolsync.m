@@ -1,16 +1,12 @@
 function synced_bits = symbolsync(bits)
 
-function synced_bits = symbolsync(bits)
-% PARAMS:
-%   a = large vector with {-1, 1}
-%   b = small vector with {-1, 1}
+load("data.mat");
 
-fields = load("data.mat");
-
-
+%{
 tau0 = fields.tau0;
 tau1 = fields.tau1;
 tauS = fields.tauS;
+%}
 
 f0 = 1/tau0;
 f1 = 1/tau1;
@@ -19,7 +15,7 @@ f1 = 1/tau1;
 n = length(bits);
 
 % create two encodings
-x = [1:1:tauS*n];
+x = [1:1:tauS];
 % create symbols
 x0 = cos(2*pi*f0 * x); 
 x1 = cos(2*pi*f1 * x);
@@ -42,5 +38,3 @@ synced_bits = synced_bits(1:end_cutoff);
 % all done! still contains noise, but is now partitioned into symbols for
 % the demodulator
 
-
-end

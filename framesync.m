@@ -48,10 +48,4 @@ payload_end_idx = end_idx - 1;
 
 % --- 3. Extract the Synchronized Payload ---
 % Truncate everything outside the bounds of the actual data
-if payload_start_idx <= payload_end_idx
-    sync_bits = rx_signal(payload_start_idx : payload_end_idx);
-else
-    warning('Frame synchronization failed: End code found before start code.');
-    sync_bits = [];
-end
-end
+sync_bits = rx_signal(payload_start_idx : payload_end_idx);

@@ -8,11 +8,11 @@ bits_enc = repencode(bits, rep);
 mod_bits = modulate_vectorized(bits_enc);
 
 % add pre and post amble, also modulated
-code = [1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1];
+code = [1 1 1 0 0 0 1 0 0 1 0];
 mod_bits = [modulate_vectorized(code) mod_bits modulate_vectorized(~code)];
 
 % gaussian white noise channel with pre- and post noise
-noise = awgn(zeros(1,47), snr);
+noise = awgn(zeros(1,20000), snr);
 mod_bits = [noise awgn(mod_bits, snr, bandpower(mod_bits)) noise];
 
 % perform symbol synchronisation using symbols in data.mat
@@ -26,7 +26,9 @@ synced_rec_bits = framesync(rec_bits, code, ~code);
 
 % now repdecode the truncated signal
 bits_dec = repdecode(synced_rec_bits, rep);
-
+if length(bits) ~= length(bits_dec)
+    error('truncated signal was cut improperly and is not the same length as input')
+end
 % error rate should be 0 without a channel!
 BER = calcBER(bits, bits_dec)
 
@@ -34,4 +36,3 @@ BER = calcBER(bits, bits_dec)
 % QUESTIONS:
 % - forward or backward sweep cross-correlation?
 % - cross correlation as a function of preamble length/probability?
-end

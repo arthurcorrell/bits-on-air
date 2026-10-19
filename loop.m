@@ -101,6 +101,6 @@ end
 
 subplot(5,1,3);
 plot([max_error:-0.01:0.0], bit_q_err_arr);
-title(sprintf('BER with repetition number %.2f', rep_num));
+title(sprintf('Bit error rate with repetition number %.2f', rep_num));
 xlabel('Channel Disturbance q');
 ylabel('Bit error Rate');
