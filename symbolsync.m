@@ -1,5 +1,6 @@
 function synced_bits = symbolsync(bits)
 
+<<<<<<< HEAD
 
 fields = (load("data.mat"));
 
@@ -40,3 +41,9 @@ synced_bits = synced_bits(1:end_cutoff);
 
 
 end
+=======
+% PARAMS:
+%   a = large vector with {-1, 1}
+%   b = small vector with {-1, 1}
+
+>>>>>>> be0a8ec4a67157b220beb804df6b8ce8557aef87
