@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 function audiodata = recordsound()
 
 
@@ -32,5 +33,4 @@ recordblocking(recorder, 5);
 audiodata = getaudiodata(recorder)';
 
 plot(audiodata)
-
 
